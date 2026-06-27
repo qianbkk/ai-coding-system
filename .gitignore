@@ -1,0 +1,7 @@
+# Git
+.DS_Store
+*.log
+
+# Claude
+.claude/
+!system/.claude/

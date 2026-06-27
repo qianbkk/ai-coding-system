@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '--- 自动验证 ---' && (npm test -- --run 2>&1 || pnpm test run 2>&1 || python -m pytest 2>&1 || echo '未找到测试命令，请手动验证') | tail -15"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "在结束前做最后检查：(1) 所有测试通过了吗？(2) 有没有改了范围外的代码？(3) 有没有硬编码的密钥？(4) 有没有未处理的错误路径？如果以上有任何问题，继续工作修复它们，不要结束。"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "检查即将执行的命令：它会修改生产数据吗？会删除文件吗？会影响 main 分支吗？如果是，先告知用户并等待确认。"
+          }
+        ]
+      }
+    ]
+  }
+}
